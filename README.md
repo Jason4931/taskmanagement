@@ -5,8 +5,8 @@
 1. **Clone Repository**
 
    ```bash
-   git clone https://github.com/username/nama-repo.git
-   cd nama-repo
+   git clone https://github.com/Jason4931/taskmanagement.git
+   cd taskmanagement
    ```
 
 2. **Install Dependensi Backend (Laravel)**
@@ -19,7 +19,6 @@
 
    ```bash
    npm install
-   npm run dev
    ```
 
 4. **Salin File Environment**
@@ -41,16 +40,18 @@
    DB_PASSWORD=
    ```
 
-6. **Generate App Key**
+6. **Generate User**
 
    ```bash
-   php artisan key:generate
+   php artisan make:filament-user
+   php artisan shield:super-admin
+   php artisan shield:generate --all
    ```
 
-7. **Migrasi Database & Seeder Data Awal**
+7. **Migrasi Database**
 
    ```bash
-   php artisan migrate --seed
+   php artisan migrate
    ```
 
 8. **Jalankan Server Lokal**
@@ -61,7 +62,7 @@
 
    Akses aplikasi melalui: [http://localhost:8000](http://localhost:8000)
 
-9. **Login ke Filament Admin (jika tersedia akun default)**
+9. **Login ke Filament Admin (setelah membuat akun)**
 
    - Email: `admin@domain.com`
    - Password: `password`
