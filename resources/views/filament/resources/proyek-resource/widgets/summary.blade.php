@@ -1,4 +1,4 @@
-<x-filament::card class="w-full">
+<x-filament::card class="w-full mt-6">
   <div class="text-lg font-semibold mb-4">Jumlah Tugas</div>
   <div class="flex w-full justify-between text-center">
     <div class="flex-1">

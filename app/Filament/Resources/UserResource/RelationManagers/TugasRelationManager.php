@@ -1,26 +1,21 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Resources\UserResource\RelationManagers;
 
-use App\Filament\Resources\TugasResource\Pages;
-use App\Filament\Resources\TugasResource\RelationManagers;
-use App\Models\Tugas;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Tables\Columns\SelectColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Tables\Columns\SelectColumn;
+use Filament\Resources\RelationManagers\RelationManager;
 
-class TugasResource extends Resource
+class TugasRelationManager extends RelationManager
 {
-    protected static ?string $model = Tugas::class;
+    protected static string $relationship = 'tugas';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
-    public static function form(Form $form): Form
+    public function form(Form $form): Form
     {
         return $form
             ->schema([
@@ -51,12 +46,10 @@ class TugasResource extends Resource
             ]);
     }
 
-    public static function table(Table $table): Table
+    public function table(Table $table): Table
     {
         return $table
-            ->query(
-                Tugas::where('status', '=', 'To Do')
-            )
+            ->recordTitleAttribute('nama_tugas')
             ->columns([
                 Tables\Columns\TextColumn::make('nama_tugas'),
                 Tables\Columns\TextColumn::make('proyek.nama_proyek'),
@@ -78,14 +71,10 @@ class TugasResource extends Resource
             ->filters([
                 //
             ])
+            ->headerActions([
+                Tables\Actions\CreateAction::make(),
+            ])
             ->actions([
-                Tables\Actions\Action::make('In Progress')
-                    ->button()
-                    ->action(function (Tugas $record, $livewire) {
-                        $record->update(['status' => 'In Progress']);
-                        $livewire->dispatch('statusChange');
-                    }),
-                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
@@ -94,22 +83,5 @@ class TugasResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
-    }
-
-    public static function getPages(): array
-    {
-        return [
-            'index' => Pages\ListTugas::route('/'),
-            'create' => Pages\CreateTugas::route('/create'),
-            'edit' => Pages\EditTugas::route('/{record}/edit'),
-            'view' => Pages\ViewTugas::route('/{record}'),
-        ];
     }
 }
